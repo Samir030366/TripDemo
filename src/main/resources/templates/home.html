@@ -1,62 +1,79 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"> 
-  <head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="favicon.ico">
     <title>TripApp | Aplicación para publicar Ofertas de Vacil en El Salvador.</title>
-    <!-- Bootstrap core CSS (dinámico con th:href, L12,14,15) -->
+    
     <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
-    <!-- Custom styles for this template -->
     <link th:href="@{/bootstrap/css/jumbotron.css}" rel="stylesheet">
     <link th:href="@{/bootstrap/css/sticky-footer-navbar.css}" rel="stylesheet">
-  </head>
-  <body>
-    <header th:insert="fragments/menu :: menu-principal" ></header>
+</head>
+<body>
+    <header th:insert="fragments/menu :: menu-principal"></header>
+    
     <main role="main">
-      <!-- Main jumbotron for a primary marketing message or call to action -->
-      <div class="jumbotron">
-        <div class="container">
-          <h3>Encuentra los mejores Trips en El Salvador.</h3>
-          Puedes buscar por descripción y categoría.
-          <form class="form-inline">
-            <input type="text" class="form-control mb-3" id="exampleFormControlInput1" placeholder="Escriba una búsqueda">&nbsp;
-            <select class="custom-select custom-select mb-3">
-              <option selected>Seleccione una categoría</option>
-              <option value="En la montaña">En la montaña</option>
-              <option value="En la Ciudad">En la Ciudad</option>
-              <option value="En los pueblos">En los pueblos</option>
-              <option value="En las playas">En las playas</option>
-            </select>&nbsp;
-            <button type="submit" class="btn btn-primary mb-3">Buscar</button>
-          </form>
+        <div class="jumbotron">
+            <div class="container">
+                <h3>Encuentra los mejores Trips en El Salvador.</h3>
+                Puedes buscar por descripción y categoría.
+                <form class="form-inline">
+                    <input type="text" class="form-control mb-3" placeholder="Escriba una búsqueda">
+                    <select class="custom-select custom-select mb-3">
+                        <option selected>Seleccione una categoría</option>
+                        <option value="En la montaña">En la montaña</option>
+                        <option value="En la Ciudad">En la Ciudad</option>
+                        <option value="En los pueblos">En los pueblos</option>
+                        <option value="En las playas">En las playas</option>
+                    </select>
+                    <button type="submit" class="btn btn-primary mb-3">Buscar</button>
+                </form>
+            </div>
         </div>
-      </div>
-      <hr>
-      <div class="container">
-        <h2 class="font-weight-bold text-center text-capitalize">DESTACADOS</h2>
         <hr>
-        <!-- Sección dinámica: Itera sobre la lista de trips (slides 15-18). Filtra por destacado si quieres: th:if="${trip.destacado}" -->
-        <div class="row" th:each="trip : ${trips}">
-  <div class="col-md-3">
-    <img class="rounded mx-auto d-block" th:src="@{/images/{imagen}(imagen=${trip.imagen})}" alt="Trip image" width="220" height="220">
-  </div>
-  <div class="col-md-9">
-    <h2 th:text="${trip.nombre}"></h2>
-    <h6 class="card-title"><strong>Categoría: </strong> <span th:text="${trip.categoria}"></span></h6>
-    <h6 class="card-title"><strong>Publicado: </strong> <span th:text="${#dates.format(trip.fecha, 'dd-MM-yyyy')}"></span></h6>
-    <p th:text="${trip.descripcion}"></p>
-    <p><a class="btn btn-secondary" th:href="@{/trips/view/{id}(id=${trip.id})}" role="button">Ver detalles &raquo;</a></p>
-  </div>
-</div>
-        <hr>
-      </div> <!-- /container -->
+
+        <div class="container">
+            <h2 class="font-weight-bold text-center text-capitalize">DESTACADOS</h2>
+            <hr>
+
+            <div class="row" th:each="trip : ${trips}">
+                <div class="col-md-3">
+                    <!-- Versión SIMPLE y confiable para cargar imágenes -->
+                    <img class="rounded mx-auto d-block img-fluid" 
+                         th:src="@{/images/{filename}(filename=${trip.imagen})}" 
+                         alt="Trip image" width="220" height="220"
+                         th:if="${trip.imagen != null}">
+                    <!-- Placeholder si no hay imagen -->
+                    <img class="rounded mx-auto d-block img-fluid" 
+                         src="/images/no-image.png" 
+                         alt="No image" width="220" height="220"
+                         th:if="${trip.imagen == null}">
+                </div>
+                <div class="col-md-9">
+                    <h2 th:text="${trip.nombre}"></h2>
+                    <h6 class="card-title">
+                        <strong>Categoría: </strong> 
+                        <span th:text="${trip.categoria != null ? trip.categoria.nombre : 'Sin categoría'}"></span>
+                    </h6>
+                    <h6 class="card-title">
+                        <strong>Publicado: </strong> 
+                        <span th:text="${#dates.format(trip.fecha, 'dd-MM-yyyy')}"></span>
+                    </h6>
+                    <p th:text="${trip.descripcion}"></p>
+                    <p>
+                        <a class="btn btn-secondary" th:href="@{/trips/view/{id}(id=${trip.id})}" role="button">
+                            Ver detalles &raquo;
+                        </a>
+                    </p>
+                </div>
+            </div>
+            <hr>
+        </div>
     </main>
+
     <footer th:insert="fragments/footer :: pie-pagina"></footer>
-    <!-- Bootstrap core JavaScript (dinámico con th:src, ~L125) -->
-    <script th:src="@{https://code.jquery.com/jquery-3.3.1.slim.min.js}"></script>  <!-- Este es externo, déjalo como está o hazlo local si quieres -->
+
+    <script th:src="@{https://code.jquery.com/jquery-3.3.1.slim.min.js}"></script>
     <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
-  </body>
+</body>
 </html>

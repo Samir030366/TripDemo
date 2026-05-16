@@ -20,7 +20,7 @@
                 <div class="card-body">
 
                     <a class="btn btn-primary" th:href="@{/trips/create}" role="button">
-                       <i class="fas fa-file"></i> Nuevo
+                       <i class="fas fa-file"></i> Nuevo Trip
                     </a>
 
                     <hr>
@@ -34,26 +34,26 @@
                                 <th scope="col">Fecha Pub.</th>
                                 <th scope="col">Estatus</th>
                                 <th scope="col">Destacado</th>
-                                <th scope="col">Editar/Borrar</th>
+                                <th scope="col">Editar / Eliminar</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr th:each="trip : ${trips}">
-                                <!-- CORRECCIÓN: Protección contra null -->
+                                <!-- CORRECCIÓN PRINCIPAL: Mostrar solo el nombre de la categoría -->
                                 <td th:text="${trip.categoria != null ? trip.categoria.nombre : 'Sin categoría'}"></td>
                                 <td th:text="${trip.nombre}"></td>
                                 <td th:text="${#dates.format(trip.fecha, 'dd-MM-yyyy')}"></td>
                                 <td th:text="${trip.estatus}"></td>
                                 <td th:text="${trip.destacado == 1 ? 'SI' : 'NO'}"></td>
-                               <td>
-    <a class="btn btn-success btn-sm" th:href="@{/trips/edit/{id}(id=${trip.id})}" title="Editar">
-        <i class="fas fa-pencil-alt"></i>
-    </a>
-    <a class="btn btn-danger btn-sm" th:href="@{/trips/delete/{id}(id=${trip.id})}" 
-       onclick="return confirm('¿Estás seguro de eliminar este Trip?')" title="Eliminar">
-        <i class="fas fa-trash"></i>
-    </a>
-</td>
+                                <td>
+                                    <a class="btn btn-success btn-sm me-1" th:href="@{/trips/edit/{id}(id=${trip.id})}" title="Editar">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </a>
+                                    <a class="btn btn-danger btn-sm" th:href="@{/trips/delete/{id}(id=${trip.id})}"
+                                       onclick="return confirm('¿Estás seguro de eliminar este Trip?')" title="Eliminar">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
