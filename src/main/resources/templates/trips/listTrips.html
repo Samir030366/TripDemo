@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>TripApp | Listado de Trips</title>
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/bootstrap/css/jumbotron.css}" rel="stylesheet">
+    <link th:href="@{/bootstrap/css/sticky-footer-navbar.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+</head>
+<body>
+    <header th:insert="/fragments/menu :: menu-principal"></header>
+
+    <main role="main">
+        <hr>
+        <div class="container">
+            <div class="card">
+                <h4 class="card-header"><strong>Listado de Ofertas de Trips</strong></h4>
+                <div class="card-body">
+
+                    <a class="btn btn-primary" th:href="@{/trips/create}" role="button">
+                       <i class="fas fa-file"></i> Nuevo
+                    </a>
+
+                    <hr>
+                    <div th:if="${msg != null}" class="alert alert-success" th:text="${msg}" role="alert"></div>
+
+                    <table class="table table-hover">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Categoría</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Fecha Pub.</th>
+                                <th scope="col">Estatus</th>
+                                <th scope="col">Destacado</th>
+                                <th scope="col">Editar/Borrar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="trip : ${trips}">
+                                <!-- CORRECCIÓN: Protección contra null -->
+                                <td th:text="${trip.categoria != null ? trip.categoria.nombre : 'Sin categoría'}"></td>
+                                <td th:text="${trip.nombre}"></td>
+                                <td th:text="${#dates.format(trip.fecha, 'dd-MM-yyyy')}"></td>
+                                <td th:text="${trip.estatus}"></td>
+                                <td th:text="${trip.destacado == 1 ? 'SI' : 'NO'}"></td>
+                               <td>
+    <a class="btn btn-success btn-sm" th:href="@{/trips/edit/{id}(id=${trip.id})}" title="Editar">
+        <i class="fas fa-pencil-alt"></i>
+    </a>
+    <a class="btn btn-danger btn-sm" th:href="@{/trips/delete/{id}(id=${trip.id})}" 
+       onclick="return confirm('¿Estás seguro de eliminar este Trip?')" title="Eliminar">
+        <i class="fas fa-trash"></i>
+    </a>
+</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:insert="/fragments/footer :: pie-pagina"></footer>
+
+    <script th:src="@{https://code.jquery.com/jquery-3.3.1.slim.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>TripApp | Nueva Categoría</title>
+
+    <!-- Bootstrap CSS -->
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- Custom styles -->
+    <link th:href="@{/bootstrap/css/jumbotron.css}" rel="stylesheet">
+    <link th:href="@{/bootstrap/css/sticky-footer-navbar.css}" rel="stylesheet">
+</head>
+<body>
+    <header th:insert="fragments/menu :: menu-principal"></header>
+
+    <main role="main">
+        <hr>
+        <div class="container">
+            <div class="card">
+                <h4 class="card-header"><strong>Datos de la categoría</strong></h4>
+                <div class="card-body">
+                    <form th:action="@{/categorias/save}" method="post" th:object="${categoria}">
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="nombre">Nombre</label>
+                                    <input type="text" class="form-control" id="nombre" 
+                                           th:field="*{nombre}" placeholder="Escriba el nombre de la categoria" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="descripcion">Descripción</label>
+                                    <textarea class="form-control" th:field="*{descripcion}" 
+                                              id="descripcion" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:insert="fragments/footer :: pie-pagina"></footer>
+
+    <!-- Bootstrap JS -->
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+</body>
+</html>
